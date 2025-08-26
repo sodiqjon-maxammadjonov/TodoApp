@@ -2,6 +2,8 @@ package com.sdk.todoapp
 
 //noinspection SuspiciousImport
 import android.R
+import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -31,14 +33,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import java.text.SimpleDateFormat
 
 @Composable
 fun TodoListPage(viewModel: TodoViewModel) {
+    val context = LocalContext.current
     val todoList by viewModel.todoList.observeAsState()
     var inputText by remember {
         mutableStateOf("")
@@ -68,7 +73,15 @@ fun TodoListPage(viewModel: TodoViewModel) {
                 modifier = Modifier.weight(1f)
             )
             Button(
-                onClick = {},
+                onClick = {
+                    if (inputText.isBlank()) {
+                        Toast.makeText(context, "Please enter a title", Toast.LENGTH_SHORT).show()
+                    } else {
+                        viewModel.addTodo(inputText)
+                        inputText = ""
+                        focusManager.clearFocus()
+                    }
+                },
                 modifier = Modifier.padding(start = 8.dp)
             ) {
                 Text("Add")
@@ -79,16 +92,23 @@ fun TodoListPage(viewModel: TodoViewModel) {
             LazyColumn(
                 content = {
                     itemsIndexed(it) { index, item ->
-                        TodoItem(item)
+                        TodoItem(item = item, onDelete = { viewModel.deleteTodo(item.id) })
                     }
                 }
             )
-        }
+        } ?: Text(
+            modifier = Modifier.fillMaxSize(),
+            textAlign = TextAlign.Center,
+            text = "No items Left",
+            fontSize = 16.sp
+
+        )
     }
 }
 
+@SuppressLint("WeekBasedYear")
 @Composable
-fun TodoItem(item: Todo) {
+fun TodoItem(item: Todo, onDelete: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -103,7 +123,7 @@ fun TodoItem(item: Todo) {
         ) {
             Text(
                 text = SimpleDateFormat(
-                    "HH:mm:aa, dd/mm",
+                    "HH:mm:aa, dd.MM.YYYY",
                     java.util.Locale.ENGLISH
                 ).format(item.createdAt),
                 fontSize = 12.sp,
@@ -115,7 +135,7 @@ fun TodoItem(item: Todo) {
                 color = Color.White
             )
         }
-        IconButton(onClick = {}) {
+        IconButton(onClick = onDelete) {
             Icon(
                 painter = painterResource(R.drawable.ic_menu_delete),
                 contentDescription = "Delete",

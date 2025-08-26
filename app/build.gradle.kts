@@ -41,6 +41,8 @@ android {
 
 dependencies {
 
+    implementation("androidx.compose.material3:material3:1.2.0")
+    implementation("androidx.core:core-splashscreen:1.0.0")
     implementation("androidx.compose.runtime:runtime-livedata:1.9.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -8,7 +8,7 @@ object TodoManager {
     private val todoList = mutableListOf<Todo>()
 
     fun getAllTodo() : List<Todo> {
-        return todoList
+        return todoList.reversed()
     }
 
     fun addTodo(title : String) {
