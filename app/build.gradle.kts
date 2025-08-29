@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
 }
 
 android {
@@ -25,6 +26,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -41,8 +43,14 @@ android {
 
 dependencies {
 
-    implementation("androidx.compose.material3:material3:1.2.0")
-    implementation("androidx.core:core-splashscreen:1.0.0")
+    implementation ("com.google.dagger:hilt-android:2.57.1")
+    kapt ("com.google.dagger:hilt-compiler:2.57.1")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation ("androidx.room:room-runtime:2.7.2")
+    implementation ("androidx.room:room-ktx:2.7.2")
+    kapt ("androidx.room:room-compiler:2.7.2")
+    implementation("androidx.compose.material3:material3:1.3.2")
+    implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.compose.runtime:runtime-livedata:1.9.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
