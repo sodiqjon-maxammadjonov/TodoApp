@@ -1,11 +1,11 @@
-package com.sdk.todoapp.data.local.databese
+package com.sdk.todoapp.data.local.datbase
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.sdk.todoapp.data.local.dao.TodoDao
 import com.sdk.todoapp.data.local.entity.TodoEntity
 
-@Database(entities = [TodoEntity::class], version = 1, exportSchema = false)
+@Database(entities = [TodoEntity::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract class todoDao() : TodoDao
+    abstract fun todoDao(): TodoDao
 }

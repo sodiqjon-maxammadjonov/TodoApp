@@ -15,13 +15,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
+import com.sdk.todoapp.presentation.screen.TodoListScreen
 import com.sdk.todoapp.ui.theme.TodoAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
         installSplashScreen()
         setContent {
             TodoAppTheme {
@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
                         .consumeWindowInsets(WindowInsets.safeDrawing),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    TodoListPage(todoViewModel)
+                    TodoListScreen()
                 }
             }
         }

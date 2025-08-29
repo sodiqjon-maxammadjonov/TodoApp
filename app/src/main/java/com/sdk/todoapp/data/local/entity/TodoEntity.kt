@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.sdk.todoapp.domain.model.Todo
 
-@Entity(tableName = "todos")
+@Entity(tableName = "todo")
 data class TodoEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
@@ -14,6 +14,5 @@ data class TodoEntity(
     val isCompleted: Boolean = false
 )
 
-
-fun TodoEntity.toTodo() = Todo(id, title, description, createdAt, isCompleted)
-fun Todo.toEntity() = TodoEntity(id, title, description, createdAt, isCompleted)
+fun TodoEntity.toTodo() = Todo(id, title, description,createdAt, isCompleted)
+fun Todo.toEntity() = TodoEntity(id, title, description,createdAt, isCompleted)

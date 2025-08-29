@@ -1,30 +1,25 @@
 package com.sdk.todoapp.data.local.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import com.sdk.todoapp.data.local.entity.TodoEntity
 
 @Dao
-interface TodoDao {
-    @Query("SELECT * FROM todos ORDER BY createdAt DESC")
+interface TodoDao{
+    @Query("SELECT * FROM todo")
     suspend fun getAllTodos(): List<TodoEntity>
-
-
-    @Query("SELECT * FROM todos WHERE id = :id")
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addTodo(todo: TodoEntity)
+    @Query("DELETE FROM todo WHERE id = :id")
+    suspend fun deleteTodo(id: TodoEntity)
+    @Query("DELETE FROM todo")
+    suspend fun deleteAllTodos()
+    @Query("SELECT * FROM todo WHERE id = :id")
     suspend fun getTodoById(id: Int): TodoEntity?
-
-    @Insert
-    suspend fun insertTodo(todo: TodoEntity): Long
-
-    @Update
-    suspend fun updateTodo(todo: TodoEntity)
-
-    @Delete
-    suspend fun deleteTodo(todo: TodoEntity)
-
-    @Query("UPDATE todos SET isCompleted = NOT isCompleted WHERE id = :id")
-    suspend fun toggleTodoCompletion(id: Int)
+    @Query("SELECT * FROM todo WHERE isCompleted = :isCompleted")
+    suspend fun getCompletedTodos(isCompleted: Boolean = true): List<TodoEntity>
+    @Query("SELECT * FROM todo WHERE isCompleted = :isCompleted")
+    suspend fun getUncompletedTodos(isCompleted: Boolean = false): List<TodoEntity>
 }
