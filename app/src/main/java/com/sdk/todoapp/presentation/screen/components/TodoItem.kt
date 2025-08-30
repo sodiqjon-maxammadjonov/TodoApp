@@ -1,4 +1,4 @@
-package com.sdk.todoapp.presentation.component
+package com.sdk.todoapp.presentation.screen.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding

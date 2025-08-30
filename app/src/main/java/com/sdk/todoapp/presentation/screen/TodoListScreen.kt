@@ -12,7 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.sdk.todoapp.presentation.component.TodoItem
+import com.sdk.todoapp.presentation.component.CustomBackground
+import com.sdk.todoapp.presentation.screen.components.TodoItem
 import com.sdk.todoapp.presentation.viewmodel.TodoViewModel
 
 @Composable
@@ -21,83 +22,83 @@ fun TodoListScreen(viewModel: TodoViewModel = hiltViewModel()) {
     var searchQuery by remember { mutableStateOf(viewModel.searchQuery) }
     var newTodo by remember { mutableStateOf("") }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        // Search
-        OutlinedTextField(
-            value = searchQuery,
-            onValueChange = {
-                searchQuery = it
-                viewModel.searchTodos(it)
-            },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text("Qidirish...") },
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) }
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Add Todo
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+    CustomBackground {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
+            // Search
             OutlinedTextField(
-                value = newTodo,
-                onValueChange = { newTodo = it },
-                modifier = Modifier.weight(1f),
-                placeholder = { Text("Yangi vazifa...") }
+                value = searchQuery,
+                onValueChange = {
+                    searchQuery = it
+                    viewModel.searchTodos(it)
+                },
+                modifier = Modifier.fillMaxWidth(),
+                placeholder = { Text("Qidirish...") },
+                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) }
             )
-            Spacer(modifier = Modifier.width(8.dp))
-            Button(
-                onClick = {
-                    if (newTodo.isNotBlank()) {
-                        viewModel.addNewTodo(newTodo)
-                        newTodo = ""
-                    }
-                }
-            ) {
-                Text("Qo'shish")
-            }
-        }
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        // Todo List - TO'G'RI VERSIYA
-        if (todos.isEmpty()) {
-            // Bo'sh bo'lganda ko'rsatish
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(1f),
-                contentAlignment = Alignment.Center
+            // Add Todo
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = if (searchQuery.isNotEmpty())
-                        "Hech narsa topilmadi"
-                    else
-                        "Hozircha vazifalar yo'q",
-                    style = MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                OutlinedTextField(
+                    value = newTodo,
+                    onValueChange = { newTodo = it },
+                    modifier = Modifier.weight(1f),
+                    placeholder = { Text("Yangi vazifa...") }
                 )
+                Spacer(modifier = Modifier.width(8.dp))
+                Button(
+                    onClick = {
+                        if (newTodo.isNotBlank()) {
+                            viewModel.addNewTodo(newTodo)
+                            newTodo = ""
+                        }
+                    }
+                ) {
+                    Text("Qo'shish")
+                }
             }
-        } else {
-            // Todo lar bor bo'lganda
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f) // ✅ BU MUHIM - height beradi
-            ) {
-                items(todos) { todo ->
-                    TodoItem(
-                        todo = todo,
-                        onDelete = { viewModel.deleteTodoById(todo.id!!) }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Todo List
+            if (todos.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(1f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = if (searchQuery.isNotEmpty())
+                            "Hech narsa topilmadi"
+                        else
+                            "Hozircha vazifalar yo'q",
+                        style = MaterialTheme.typography.bodyLarge,
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
+                    items(todos) { todo ->
+                        TodoItem(
+                            todo = todo,
+                            onDelete = { viewModel.deleteTodoById(todo.id!!) }
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                    }
                 }
             }
         }
