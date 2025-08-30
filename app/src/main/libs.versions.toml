@@ -1,0 +1,12 @@
+toml
+[versions]
+agp = "8.12.2"
+kotlin = "2.0.21"
+# ... other versions
+ksp = "2.0.2-1.0.17" // Choose the appropriate KSP version compatible with your Kotlin version
+
+[libraries]
+# ... your existing libraries
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "ag

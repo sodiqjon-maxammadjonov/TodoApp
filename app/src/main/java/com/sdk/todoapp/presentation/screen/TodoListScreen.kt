@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sdk.todoapp.presentation.component.CustomBackground
-import com.sdk.todoapp.presentation.screen.components.TodoItem
+import com.sdk.todoapp.presentation.screen.common.TodoItem
 import com.sdk.todoapp.presentation.viewmodel.TodoViewModel
 
 @Composable
