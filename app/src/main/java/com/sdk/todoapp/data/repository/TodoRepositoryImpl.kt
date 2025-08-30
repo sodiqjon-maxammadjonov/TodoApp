@@ -21,4 +21,8 @@ class TodoRepositoryImpl @Inject constructor(
     override suspend fun deleteTodo(id: Int) {
         todoDao.getAllTodos().find { it.id == id }?.let { todoDao.deleteTodo(it.id!!) }
     }
+
+    override suspend fun updateTodo(todo: Todo) {
+        todoDao.updateTodo(todo.toEntity())
+    }
 }

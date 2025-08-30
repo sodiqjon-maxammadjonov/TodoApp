@@ -22,7 +22,7 @@ fun TodoItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 4.dp),
+            .padding( vertical = 4.dp),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = if (todo.isCompleted) {
@@ -41,7 +41,6 @@ fun TodoItem(
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Status Toggle Icon
             TodoStatusIcon(
                 isCompleted = todo.isCompleted,
                 onToggle = onToggleComplete

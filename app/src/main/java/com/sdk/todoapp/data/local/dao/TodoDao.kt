@@ -28,4 +28,6 @@ interface TodoDao {
 
     @Query("SELECT * FROM todo WHERE isCompleted = :isCompleted")
     suspend fun getUncompletedTodos(isCompleted: Boolean = false): List<TodoEntity>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateTodo(todo: TodoEntity)
 }

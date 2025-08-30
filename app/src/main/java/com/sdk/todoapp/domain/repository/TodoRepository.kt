@@ -6,4 +6,7 @@ interface TodoRepository {
     suspend fun getAllTodos(): List<Todo>
     suspend fun addTodo(todo: Todo)
     suspend fun deleteTodo(id: Int)
+
+    suspend fun updateTodo(todo: Todo)
+
 }
